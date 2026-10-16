@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLink | Donor Directory</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #243047;
+        }
+
+        .navbar {
+            background: #9f1239;
+            color: white;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .container {
+            max-width: 1450px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .heading h1 {
+            margin-bottom: 5px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #00000008;
+        }
+
+        .stat-card p {
+            color: #64748b;
+            margin: 0 0 10px;
+        }
+
+        .stat-card h2 {
+            margin: 0;
+            color: #9f1239;
+            font-size: 30px;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #dbe2ea;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 180px;
+            flex: 1;
+            background: white;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px #00000008;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1250px;
+        }
+
+        th {
+            background: #fff1f2;
+            color: #9f1239;
+            text-align: left;
+            padding: 16px;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #edf0f4;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #fff8f9;
+        }
+
+        .blood {
+            background: #ffe4e6;
+            color: #9f1239;
+            font-weight: bold;
+            padding: 7px 11px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .bmi {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 6px 9px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .available {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .unavailable {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #64748b;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 22px;
+            color: #9f1239;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin-top: 20px;
+                padding: 0 12px;
+            }
+
+            .navbar {
+                padding: 18px;
+            }
+
+            .filters {
+                padding: 12px;
+            }
+
+            input, select {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h2>🩸 LifeLink</h2>
+
+        <div>
+            <a href="{% url 'home' %}">Home</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <div class="heading">
+            <h1>Registered Blood Donors</h1>
+            <p>Find and manage registered donor information.</p>
+        </div>
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <p>Total Registered Donors</p>
+                <h2 id="totalCount">{{ donors|length }}</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Matching Donors</p>
+                <h2 id="matchingCount">{{ donors|length }}</h2>
+            </div>
+
+        </section>
+
+        <section class="filters">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search name, phone, email, city..."
+                aria-label="Search donors"
+            >
+
+            <select id="bloodFilter" aria-label="Filter by blood group">
+                <option value="">All Blood Groups</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+
+            <select id="stateFilter" aria-label="Filter by state">
+                <option value="">All States and UTs</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                <option value="Ladakh">Ladakh</option>
+                <option value="Lakshadweep">Lakshadweep</option>
+                <option value="Puducherry">Puducherry</option>
+            </select>
+
+            <select id="statusFilter" aria-label="Filter by availability">
+                <option value="">All Availability</option>
+                <option value="available">Available</option>
+                <option value="unavailable">Unavailable</option>
+            </select>
+
+        </section>
+
+        <section class="table-card">
+
+            <div class="table-scroll">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Blood Group</th>
+                            <th>Height (cm)</th>
+                            <th>Weight (kg)</th>
+                            <th>BMI</th>
+                            <th>Phone</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Email</th>
+                            <th>Availability</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="donorTable">
+
+                        {% for donor in donors %}
+
+                        <tr
+                            data-blood="{{ donor.blood_group|upper }}"
+                            data-status="{% if donor.is_available %}available{% else %}unavailable{% endif %}"
+                            data-state="{{ donor.state|default:''|lower }}"
+                        >
+
+                            <td>
+                                <strong>{{ donor.name }}</strong>
+                            </td>
+
+                            <td>{{ donor.age }}</td>
+
+                            <td>
+                                <span class="blood">
+                                    {{ donor.blood_group }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if donor.height %}
+                                    {{ donor.height }}
+                                {% else %}
+                                    Not provided
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if donor.weight %}
+                                    {{ donor.weight }}
+                                {% else %}
+                                    Not provided
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if donor.bmi %}
+                                    <span class="bmi">{{ donor.bmi }}</span>
+                                {% else %}
+                                    Not provided
+                                {% endif %}
+                            </td>
+
+                            <td>{{ donor.phone }}</td>
+
+                            <td>{{ donor.city }}</td>
+
+                            <td>
+                                {{ donor.state|default:"Not provided" }}
+                            </td>
+
+                            <td>
+                                {{ donor.email|default:"Not provided" }}
+                            </td>
+
+                            <td>
+                                {% if donor.is_available %}
+                                    <span class="status available">
+                                        Available
+                                    </span>
+                                {% else %}
+                                    <span class="status unavailable">
+                                        Unavailable
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="11" class="empty">
+                                No donors registered yet.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <p id="noResults" class="empty" hidden>
+                No donors match your search.
+            </p>
+
+        </section>
+
+        <a class="back" href="{% url 'home' %}">
+            ← Back to Home
+        </a>
+
+    </main>
+
+    <script>
+        const search = document.getElementById("search");
+        const bloodFilter = document.getElementById("bloodFilter");
+        const stateFilter = document.getElementById("stateFilter");
+        const statusFilter = document.getElementById("statusFilter");
+
+        const rows = document.querySelectorAll(
+            "#donorTable tr[data-blood]"
+        );
+
+        const matchingCount = document.getElementById("matchingCount");
+        const noResults = document.getElementById("noResults");
+
+        function filterDonors() {
+            const keyword = search.value.toLowerCase().trim();
+            const blood = bloodFilter.value.toUpperCase();
+            const state = stateFilter.value.toLowerCase();
+            const status = statusFilter.value;
+
+            let count = 0;
+
+            rows.forEach(function(row) {
+                const text = row.innerText.toLowerCase();
+
+                const matchesSearch = text.includes(keyword);
+
+                const matchesBlood =
+                    blood === "" || row.dataset.blood === blood;
+
+                const matchesState =
+                    state === "" || row.dataset.state === state;
+
+                const matchesStatus =
+                    status === "" || row.dataset.status === status;
+
+                const show =
+                    matchesSearch &&
+                    matchesBlood &&
+                    matchesState &&
+                    matchesStatus;
+
+                row.hidden = !show;
+
+                if (show) {
+                    count++;
+                }
+            });
+
+            matchingCount.textContent = count;
+            noResults.hidden = count !== 0;
+        }
+
+        search.addEventListener("input", filterDonors);
+        bloodFilter.addEventListener("change", filterDonors);
+        stateFilter.addEventListener("change", filterDonors);
+        statusFilter.addEventListener("change", filterDonors);
+    </script>
+
+</body>
+</html>

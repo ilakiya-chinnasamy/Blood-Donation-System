@@ -1,0 +1,725 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LifeLink | Alert Center</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .navbar {
+            background: #9f1239;
+            color: white;
+            padding: 18px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            color: white;
+            font-size: 23px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 17px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #881337, #e11d48);
+            color: white;
+            padding: 35px 6% 65px;
+        }
+
+        .eyebrow {
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #fecdd3;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            margin: 12px 0;
+        }
+
+        .hero p {
+            color: #ffe4e6;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: -28px auto 40px;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 23px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px #0f172a0a;
+            border: 1px solid #edf0f4;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+            margin: 0 0 12px;
+        }
+
+        .stat-number {
+            font-size: 31px;
+            margin: 0;
+            color: #9f1239;
+        }
+
+        .stat-note {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 0;
+            margin-top: 8px;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px #0f172a08;
+            border: 1px solid #edf0f4;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .section-heading h2 {
+            margin: 0 0 7px;
+            font-size: 22px;
+        }
+
+        .muted {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-block;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 16px;
+            background: #be123c;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #9f1239;
+        }
+
+        .button-secondary {
+            background: #334155;
+        }
+
+        .button-secondary:hover {
+            background: #1e293b;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0 25px;
+        }
+
+        .filters input,
+        .filters select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dbe2ea;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            min-width: 0;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            outline: 2px solid #fecdd3;
+            border-color: #e11d48;
+        }
+
+        .alert-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .alert-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid #cbd5e1;
+            border-radius: 13px;
+            padding: 21px;
+            min-width: 0;
+            transition: box-shadow 0.2s;
+        }
+
+        .alert-card:hover {
+            box-shadow: 0 8px 22px #0f172a0d;
+        }
+
+        .alert-card.unread {
+            background: #fffafb;
+            border-left-color: #e11d48;
+        }
+
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .blood-title {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .blood-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #ffe4e6;
+            color: #9f1239;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 23px;
+            flex-shrink: 0;
+        }
+
+        .blood-title h3 {
+            font-size: 17px;
+            margin: 0 0 5px;
+            color: #881337;
+            overflow-wrap: anywhere;
+        }
+
+        .blood-title p {
+            margin: 0;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .badge-unread {
+            color: #9f1239;
+            background: #ffe4e6;
+        }
+
+        .badge-read {
+            color: #475569;
+            background: #e2e8f0;
+        }
+
+        .badge-sent {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .badge-pending {
+            color: #92400e;
+            background: #fef3c7;
+        }
+
+        .alert-message {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 12px;
+            margin: 18px 0;
+        }
+
+        .detail-label {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 13px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .delivery {
+            border-top: 1px solid #edf0f4;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .delivery-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 7px;
+        }
+
+        .alert-actions {
+            margin-top: 15px;
+        }
+
+        .alert-actions form {
+            margin: 0;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 45px 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .empty-icon {
+            font-size: 42px;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 8px;
+        }
+
+        .message {
+            padding: 13px 15px;
+            margin-bottom: 12px;
+            border-radius: 9px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 14px;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #64748b;
+            padding: 25px;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            padding: 20px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 850px) {
+            .alert-list {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .filters input {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 18px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .hero {
+                padding: 28px 20px 55px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .container {
+                padding: 0 12px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 18px;
+            }
+
+            .panel {
+                padding: 17px;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .filters input {
+                grid-column: auto;
+            }
+
+            .details {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .alert-header {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a class="brand" href="{% url 'home' %}">♥️ LifeLink</a>
+
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Dashboard</a>
+            <a href="{% url 'register_donor' %}">Register Donor</a>
+            <a href="{% url 'donor_list' %}">Donors</a>
+            <a href="{% url 'request_blood' %}">Request Blood</a>
+            <a href="{% url 'alerts' %}">Alerts ({{ unread_count }})</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="eyebrow">LIFELINK • NOTIFICATION CENTER</span>
+        <h1>🩸 Blood Alert Center</h1>
+        <p>
+            Monitor donor notifications, blood requests, and email delivery.
+        </p>
+    </header>
+
+    <main class="container">
+
+        {% for message in messages %}
+            <div class="message {% if message.tags == 'error' %}error{% endif %}"
+                 role="status">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <section class="stats">
+            <article class="stat-card">
+                <p class="stat-label">Total Website Alerts</p>
+                <h2 class="stat-number">{{ alert_count }}</h2>
+                <p class="stat-note">Notifications created</p>
+            </article>
+
+            <article class="stat-card">
+                <p class="stat-label">Emails Sent</p>
+                <h2 class="stat-number">{{ email_count }}</h2>
+                <p class="stat-note">Email sends confirmed by Django</p>
+            </article>
+
+            <article class="stat-card">
+                <p class="stat-label">Unread Alerts</p>
+                <h2 class="stat-number">{{ unread_count }}</h2>
+                <p class="stat-note">Notifications awaiting review</p>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="section-heading">
+                <div>
+                    <h2>Notification History</h2>
+                    <p class="muted">
+                        Search and filter the alerts recorded by LifeLink.
+                    </p>
+                </div>
+
+                <a class="button" href="{% url 'request_blood' %}">
+                    + Create Blood Request
+                </a>
+            </div>
+
+            <div class="filters">
+                <input
+                    type="search"
+                    id="alertSearch"
+                    placeholder="Search blood group, donor or city..."
+                    aria-label="Search alerts"
+                >
+
+                <select id="bloodFilter" aria-label="Filter by blood group">
+                    <option value="">All Blood Groups</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+
+                <select id="statusFilter" aria-label="Filter by alert status">
+                    <option value="">All Alert Statuses</option>
+                    <option value="unread">Unread</option>
+                    <option value="read">Read</option>
+                </select>
+            </div>
+
+            <div class="alert-list" id="alertList">
+
+                {% for alert in alerts %}
+                    <article
+                        class="alert-card {% if not alert.is_read %}unread{% endif %}"
+                        data-blood="{{ alert.blood_request.blood_group|upper }}"
+                        data-status="{% if alert.is_read %}read{% else %}unread{% endif %}"
+                    >
+                        <div class="alert-header">
+                            <div class="blood-title">
+                                <div class="blood-icon">🩸</div>
+                                <div>
+                                    <h3>
+                                        {{ alert.blood_request.blood_group }}
+                                        Blood Request
+                                    </h3>
+                                    <p>
+                                        {{ alert.created_at|date:"d M Y, h:i A" }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {% if alert.is_read %}
+                                <span class="badge badge-read">Read</span>
+                            {% else %}
+                                <span class="badge badge-unread">Unread</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="alert-message">
+                            {{ alert.message }}
+                        </div>
+
+                        <div class="details">
+                            <div>
+                                <span class="detail-label">Donor</span>
+                                <span class="detail-value">
+                                    {{ alert.donor.name }}
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="detail-label">Blood Group</span>
+                                <span class="detail-value">
+                                    {{ alert.blood_request.blood_group }}
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="detail-label">City</span>
+                                <span class="detail-value">
+                                    {{ alert.blood_request.city }}
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="detail-label">Units Requested</span>
+                                <span class="detail-value">
+                                    {{ alert.blood_request.units }}
+                                </span>
+                            </div>
+
+                            <div style="grid-column: 1 / -1;">
+                                <span class="detail-label">Hospital</span>
+                                <span class="detail-value">
+                                    {{ alert.blood_request.hospital|default:"Not specified" }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="delivery">
+                            <div>
+                                <div class="delivery-label">Email Delivery</div>
+
+                                {% if alert.email_sent %}
+                                    <span class="badge badge-sent">
+                                        ✓ Sent
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-pending">
+                                        Not confirmed
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            {% if not alert.is_read %}
+                                <form method="post"
+                                      action="{% url 'mark_alert_read' alert.id %}">
+                                    {% csrf_token %}
+                                    <button class="button button-secondary"
+                                            type="submit">
+                                        Mark as Read
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </article>
+
+                {% empty %}
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-icon">🔔</div>
+                        <h3>No Alerts Yet</h3>
+                        <p class="muted">
+                            When a blood request matches an available donor,
+                            a notification will appear here.
+                        </p>
+                        <a class="button" href="{% url 'request_blood' %}">
+                            Create First Request
+                        </a>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <p class="no-results" id="noResults" hidden>
+                No alerts match your search or filters.
+            </p>
+
+        </section>
+
+        <p>
+            <a class="button button-secondary"
+               style="margin-top: 20px;"
+               href="{% url 'home' %}">
+                ← Back to Dashboard
+            </a>
+        </p>
+
+    </main>
+
+    <footer class="footer">
+        LifeLink Blood Donation Management and Alert System
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById("alertSearch");
+        const bloodFilter = document.getElementById("bloodFilter");
+        const statusFilter = document.getElementById("statusFilter");
+        const cards = document.querySelectorAll(".alert-card");
+        const noResults = document.getElementById("noResults");
+
+        function filterAlerts() {
+            const keyword = searchInput.value.toLowerCase().trim();
+            const blood = bloodFilter.value.toUpperCase();
+            const status = statusFilter.value;
+
+            let visibleCount = 0;
+
+            cards.forEach(function(card) {
+                const text = card.innerText.toLowerCase();
+
+                const matchesSearch = text.includes(keyword);
+                const matchesBlood =
+                    blood === "" || card.dataset.blood === blood;
+                const matchesStatus =
+                    status === "" || card.dataset.status == status;
+                const show = 
+                    matchesSearch && matchesBlood && matchesStatus;
+                card hidden =! show;
+                if (show){
+                    visibleCount++;
+                }
+            });
+            noResults.hidden = visibleCount !== 0 || cards.length === 0;
+        }
+
+        searchInput.addEventListener("input", filterAlerts);
+        bloodFilter.addEventListener("change", filterAlerts);
+        statusFilter.addEventListener("change", filterAlerts);
+    </script>
+
+</body>
+</html>

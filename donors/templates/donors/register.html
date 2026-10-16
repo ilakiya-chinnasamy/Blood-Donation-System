@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Donor Registration | LifeLink</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#a81732;--dark:#7f1027;--pink:#fff0f2;--navy:#192638;--muted:#748094;--border:#e5e9ef}
+body{font-family:Arial,sans-serif;background:#f7f8fb;color:var(--navy);line-height:1.6}
+.navbar{background:white;border-bottom:1px solid var(--border);padding:17px 7%;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:var(--red);color:white;font-size:24px}
+.brand-name{font-size:26px;font-weight:800}
+.brand-name span{color:var(--red)}
+.brand-subtitle{color:var(--muted);font-size:11px;letter-spacing:1px}
+.nav-link{color:var(--red);text-decoration:none;font-weight:bold;font-size:14px}
+.hero{padding:48px 7% 62px;background:linear-gradient(120deg,#fff0f2,#f9e3e7)}
+.hero-content{max-width:1050px;margin:auto}
+.eyebrow{color:var(--red);font-size:12px;font-weight:bold;letter-spacing:2px}
+.hero h1{font-size:clamp(30px,4vw,44px);line-height:1.2;margin:13px 0}
+.hero h1 span{color:var(--red)}
+.hero p{color:#657083;max-width:560px;font-size:15px}
+main{max-width:960px;margin:-25px auto 55px;padding:0 22px;position:relative}
+.form-card{background:white;border:1px solid #edf0f4;border-radius:18px;padding:36px 42px;box-shadow:0 18px 55px #202c3d0d}
+.form-heading{display:flex;align-items:center;gap:15px;padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:25px}
+.heading-icon{background:var(--pink);color:var(--red);border-radius:12px;padding:12px;font-size:23px}
+.form-heading h2{font-size:23px}
+.form-heading p{color:var(--muted);font-size:13px}
+.section-title{font-size:12px;font-weight:bold;letter-spacing:1.4px;color:var(--red);margin:28px 0 17px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px}
+.field{display:flex;flex-direction:column;min-width:0}
+.field label{font-size:13px;font-weight:700;margin-bottom:8px}
+.required{color:var(--red)}
+input,select,textarea{width:100%;padding:13px 14px;border:1px solid #dce2ea;border-radius:8px;background:white;font-size:14px;font-family:inherit;color:var(--navy);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px #a8173210}
+textarea{min-height:90px;resize:vertical}
+.full{grid-column:1/-1}
+.hint{color:var(--muted);font-size:11px;margin-top:5px}
+.bmi-card{grid-column:1/-1;background:#fff7f8;border:1px solid #f5cbd3;border-radius:12px;padding:18px}
+.bmi-card h3{font-size:15px;color:var(--red);margin-bottom:5px}
+.bmi-value{font-size:30px;font-weight:bold;color:var(--red)}
+.bmi-status{font-size:13px;font-weight:bold}
+.bmi-note{font-size:12px;color:#647084;margin-top:8px}
+.privacy{background:#fafbfc;border:1px solid var(--border);border-radius:9px;padding:13px 15px;color:#647084;font-size:12px;margin-top:28px}
+.actions{margin-top:25px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.back-link{text-decoration:none;color:#647084;font-size:13px;font-weight:bold}
+.submit-btn{background:var(--red);color:white;border:none;border-radius:8px;padding:14px 28px;font-size:14px;font-weight:bold;cursor:pointer}
+.submit-btn:hover{background:var(--dark)}
+footer{background:#192638;color:#dce2ea;padding:25px 7%;text-align:center;font-size:12px}
+footer strong{color:white}
+footer span{color:#e8899b}
+.modal{display:none;position:fixed;inset:0;background:#10182799;z-index:10;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-content{max-width:440px;width:100%;background:white;padding:28px;border-radius:16px;box-shadow:0 15px 50px #0003}
+.modal-content h2{color:var(--red);margin-bottom:12px}
+.modal-content p{font-size:14px;color:#526074;margin-bottom:14px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.modal-actions button{padding:11px 16px;border:0;border-radius:8px;cursor:pointer;font-weight:bold}
+.continue-btn{background:var(--red);color:white}
+.cancel-btn{background:#e9edf2;color:#253044}
+@media(max-width:600px){
+.navbar{padding:15px 5%}.brand-name{font-size:22px}
+.hero{padding:35px 6% 52px}main{padding:0 13px}
+.form-card{padding:24px 18px}
+.form-grid{grid-template-columns:1fr;gap:17px}
+.full,.bmi-card{grid-column:auto}
+.actions{flex-direction:column-reverse;align-items:stretch}
+.submit-btn{width:100%}.back-link{text-align:center;padding:10px}
+}
+</style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="brand">
+        <div class="brand-icon">♥️</div>
+        <div>
+            <div class="brand-name">Life<span>Link</span></div>
+            <div class="brand-subtitle">DONATE BLOOD. SAVE LIVES.</div>
+        </div>
+    </div>
+    <a class="nav-link" href="{% url 'home' %}">← Home</a>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="eyebrow">MAKE A DIFFERENCE</div>
+        <h1>Become a <span>Life Saver.</span></h1>
+        <p>Join our community of voluntary blood donors. Your willingness to donate can bring hope to someone who needs it most.</p>
+    </div>
+</section>
+
+<main>
+<section class="form-card">
+    <div class="form-heading">
+        <div class="heading-icon">♥️</div>
+        <div>
+            <h2>Donor Registration</h2>
+            <p>Complete your details to join LifeLink.</p>
+        </div>
+    </div>
+
+    <form method="POST" action="{% url 'register_donor' %}" id="donorForm">
+        {% csrf_token %}
+
+        <div class="section-title">01 — Personal Information</div>
+        <div class="form-grid">
+            <div class="field">
+                <label for="name">Full Name <span class="required">*</span></label>
+                <input id="name" name="name" maxlength="100" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="field">
+                <label for="age">Age <span class="required">*</span></label>
+                <input type="number" id="age" name="age" min="18" max="100" placeholder="Age in years" required>
+                <span class="hint">Registration requires age 18 or above; final donation eligibility is assessed separately.</span>
+            </div>
+
+            <div class="field">
+                <label for="gender">Gender <span class="required">*</span></label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="blood_group">Blood Group <span class="required">*</span></label>
+                <select id="blood_group" name="blood_group" required>
+                    <option value="">Select blood group</option>
+                    <option>A+</option><option>A-</option>
+                    <option>B+</option><option>B-</option>
+                    <option>AB+</option><option>AB-</option>
+                    <option>O+</option><option>O-</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section-title">02 — Health Information</div>
+        <div class="form-grid">
+            <div class="field">
+                <label for="height">Height (cm) <span class="required">*</span></label>
+                <input type="number" id="height" name="height" min="50" max="250" step="0.1" placeholder="e.g. 160" required>
+            </div>
+
+            <div class="field">
+                <label for="weight">Weight (kg) <span class="required">*</span></label>
+                <input type="number" id="weight" name="weight" min="10" max="400" step="0.1" placeholder="e.g. 55" required>
+            </div>
+
+            <div class="bmi-card">
+                <h3>Your BMI (Body Mass Index)</h3>
+                <div class="bmi-value" id="bmiValue">—</div>
+                <div class="bmi-status" id="bmiStatus">Enter height and weight to calculate BMI.</div>
+                <p class="bmi-note">BMI = weight (kg) ÷ height (m)². This is general information only. BMI alone cannot determine whether you can donate blood.</p>
+                <button type="button" class="submit-btn" id="bmiInfoButton" style="margin-top:12px;padding:10px 14px">BMI Information</button>
+            </div>
+            <input type="hidden" id="bmi" name="bmi">
+        </div>
+
+        <div class="section-title">03 — Contact Information</div>
+        <div class="form-grid">
+            <div class="field">
+                <label for="phone">Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" maxlength="15" placeholder="Enter phone number" required>
+            </div>
+
+            <div class="field">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="Enter email address" required>
+            </div>
+
+            <div class="field full">
+                <label for="address">Full Address <span class="required">*</span></label>
+                <textarea id="address" name="address" placeholder="House number, street and area" required></textarea>
+            </div>
+
+            <div class="field">
+                <label for="state">State / Union Territory <span class="required">*</span></label>
+                <select id="state" name="state" required>
+                    <option value="">Select state / UT</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="city">City / District <span class="required">*</span></label>
+                <select id="city" name="city" required disabled>
+                    <option value="">Select state first</option>
+                </select>
+                <span class="hint">Choose the closest listed city. Your city is used to find matching donors.</span>
+            </div>
+        </div>
+
+        <div class="privacy">
+            ♥️ Your details help LifeLink connect potential donors with blood requests. Actual donation eligibility must be confirmed by qualified blood-bank staff.
+        </div>
+
+        <div class="actions">
+            <a href="{% url 'home' %}" class="back-link">← Back to Home</a>
+            <button type="submit" class="submit-btn">Register as Donor →</button>
+        </div>
+    </form>
+</section>
+</main>
+
+<footer>
+    <strong>LifeLink</strong> | <span>Connecting donors. Supporting lives.</span>
+    <br>Blood Donation Management &amp; Alert System
+</footer>
+
+<div class="modal" id="bmiModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+        <h2 id="modalTitle">BMI Information</h2>
+        <p>BMI is a calculation based on height and weight. For adults, general reference categories are below 18.5 (underweight), 18.5–24.9 (healthy-weight range), 25–29.9 (overweight), and 30 or above (obesity range).</p>
+        <p><strong>Important:</strong> These categories do not decide blood donation eligibility. Blood banks assess weight, haemoglobin, health history, and other donation criteria.</p>
+        <div class="modal-actions">
+            <button type="button" class="cancel-btn" id="closeModal">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const citiesByState = {
+"Andhra Pradesh":["Amaravati","Visakhapatnam","Vijayawada","Guntur","Tirupati","Kurnool","Nellore","Rajahmundry","Kakinada","Anantapur","Kadapa"],
+"Arunachal Pradesh":["Itanagar","Naharlagun","Tawang","Pasighat","Ziro","Bomdila"],
+"Assam":["Dispur","Guwahati","Dibrugarh","Silchar","Jorhat","Tezpur","Nagaon","Tinsukia"],
+"Bihar":["Patna","Gaya","Muzaffarpur","Bhagalpur","Darbhanga","Purnia","Bihar Sharif","Ara"],
+"Chhattisgarh":["Raipur","Bhilai","Bilaspur","Korba","Durg","Jagdalpur","Rajnandgaon"],
+"Goa":["Panaji","Margao","Vasco da Gama","Mapusa","Ponda"],
+"Gujarat":["Gandhinagar","Ahmedabad","Surat","Vadodara","Rajkot","Bhavnagar","Jamnagar","Junagadh","Anand"],
+"Haryana":["Chandigarh","Gurugram","Faridabad","Panipat","Ambala","Hisar","Karnal","Rohtak","Sonipat"],
+"Himachal Pradesh":["Shimla","Dharamshala","Mandi","Solan","Kullu","Manali","Kangra"],
+"Jharkhand":["Ranchi","Jamshedpur","Dhanbad","Bokaro","Hazaribagh","Deoghar"],
+"Karnataka":["Bengaluru","Mysuru","Mangaluru","Hubballi","Dharwad","Belagavi","Kalaburagi","Ballari","Shivamogga","Tumakuru","Udupi"],
+"Kerala":["Thiruvananthapuram","Kochi","Kozhikode","Thrissur","Kollam","Kannur","Alappuzha","Palakkad","Kottayam"],
+"Madhya Pradesh":["Bhopal","Indore","Jabalpur","Gwalior","Ujjain","Sagar","Rewa","Satna"],
+"Maharashtra":["Mumbai","Pune","Nagpur","Nashik","Thane","Navi Mumbai","Chhatrapati Sambhajinagar","Kolhapur","Solapur","Amravati"],
+"Manipur":["Imphal","Thoubal","Bishnupur","Churachandpur"],
+"Meghalaya":["Shillong","Tura","Jowai","Nongpoh"],
+"Mizoram":["Aizawl","Lunglei","Champhai","Kolasib"],
+"Nagaland":["Kohima","Dimapur","Mokokchung","Tuensang"],
+"Odisha":["Bhubaneswar","Cuttack","Rourkela","Puri","Sambalpur","Berhampur","Balasore"],
+"Punjab":["Chandigarh","Ludhiana","Amritsar","Jalandhar","Patiala","Bathinda","Mohali","Hoshiarpur"],
+"Rajasthan":["Jaipur","Jodhpur","Udaipur","Kota","Ajmer","Bikaner","Alwar","Bharatpur"],
+"Sikkim":["Gangtok","Namchi","Gyalshing","Mangan"],
+"Tamil Nadu":["Chennai","Coimbatore","Tiruppur","Madurai","Tiruchirappalli","Salem","Erode","Tirunelveli","Vellore","Thanjavur","Dindigul","Thoothukudi","Karur","Kanchipuram","Hosur","Nagercoil"],
+"Telangana":["Hyderabad","Warangal","Nizamabad","Karimnagar","Khammam","Ramagundam","Siddipet"],
+"Tripura":["Agartala","Udaipur","Dharmanagar","Kailashahar"],
+"Uttar Pradesh":["Lucknow","Kanpur","Varanasi","Agra","Prayagraj","Noida","Ghaziabad","Meerut","Gorakhpur","Bareilly","Jhansi"],
+"Uttarakhand":["Dehradun","Haridwar","Rishikesh","Haldwani","Roorkee","Rudrapur"],
+"West Bengal":["Kolkata","Howrah","Durgapur","Asansol","Siliguri","Darjeeling","Kharagpur","Bardhaman"],
+"Andaman and Nicobar Islands":["Sri Vijaya Puram (Port Blair)","Diglipur","Car Nicobar"],
+"Chandigarh":["Chandigarh"],
+"Dadra and Nagar Haveli and Daman and Diu":["Daman","Diu","Silvassa"],
+"Delhi":["New Delhi","Delhi","Dwarka","Rohini","Narela"],
+"Jammu and Kashmir":["Srinagar","Jammu","Anantnag","Baramulla","Udhampur"],
+"Ladakh":["Leh","Kargil"],
+"Lakshadweep":["Kavaratti","Agatti","Minicoy"],
+"Puducherry":["Puducherry","Karaikal","Mahe","Yanam"]
+};
+
+const stateSelect = document.getElementById("state");
+const citySelect = document.getElementById("city");
+
+Object.keys(citiesByState).sort().forEach(function(state) {
+    const option = document.createElement("option");
+    option.value = state;
+    option.textContent = state;
+    stateSelect.appendChild(option);
+});
+
+stateSelect.addEventListener("change", function() {
+    citySelect.innerHTML = "";
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Select city / district";
+    citySelect.appendChild(placeholder);
+
+    const cities = citiesByState[stateSelect.value] || [];
+    cities.forEach(function(city) {
+        const option = document.createElement("option");
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);
+    });
+
+    citySelect.disabled = cities.length === 0;
+});
+
+const heightInput = document.getElementById("height");
+const weightInput = document.getElementById("weight");
+const bmiValue = document.getElementById("bmiValue");
+const bmiStatus = document.getElementById("bmiStatus");
+const bmiHidden = document.getElementById("bmi");
+
+function calculateBMI() {
+    const height = Number(heightInput.value);
+    const weight = Number(weightInput.value);
+
+    if (height > 0 && weight > 0 && heightInput.value && weightInput.value) {
+        const bmi = weight / ((height / 100) ** 2);
+
+        if (Number.isFinite(bmi)) {
+            bmiValue.textContent = bmi.toFixed(1);
+            bmiHidden.value = bmi.toFixed(1);
+
+            if (bmi < 18.5) {
+                bmiStatus.textContent = "Below the general adult reference range";
+            } else if (bmi < 25) {
+                bmiStatus.textContent = "Within the general adult reference range";
+            } else if (bmi < 30) {
+                bmiStatus.textContent = "Above the general adult reference range";
+            } else {
+                bmiStatus.textContent = "High BMI reference category";
+            }
+            return;
+        }
+    }
+
+    bmiValue.textContent = "—";
+    bmiStatus.textContent = "Enter height and weight to calculate BMI.";
+    bmiHidden.value = "";
+}
+
+heightInput.addEventListener("input", calculateBMI);
+weightInput.addEventListener("input", calculateBMI);
+
+const modal = document.getElementById("bmiModal");
+document.getElementById("bmiInfoButton").addEventListener("click", function() {
+    modal.classList.add("show");
+});
+document.getElementById("closeModal").addEventListener("click", function() {
+    modal.classList.remove("show");
+});
+modal.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        modal.classList.remove("show");
+    }
+});
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        modal.classList.remove("show");
+    }
+});
+
+document.getElementById("donorForm").addEventListener("submit", function(event) {
+    calculateBMI();
+
+    if (!this.checkValidity()) {
+        event.preventDefault();
+        this.reportValidity();
+        return;
+    }
+
+    if (!bmiHidden.value) {
+        event.preventDefault();
+        alert("Please enter a valid height and weight.");
+    }
+});
+</script>
+</body>
+</html>

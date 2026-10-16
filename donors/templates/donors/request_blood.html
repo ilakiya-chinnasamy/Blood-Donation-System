@@ -1,0 +1,741 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Request Blood | LifeLink</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .navbar {
+            background: #9f1239;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .brand {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+            font-size: 14px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #881337, #e11d48);
+            color: white;
+            padding: 38px 20px 65px;
+            text-align: center;
+        }
+
+        .hero .icon {
+            font-size: 42px;
+        }
+
+        .hero h1 {
+            margin: 10px 0;
+            font-size: 34px;
+        }
+
+        .hero p {
+            margin: 0;
+            color: #ffe4e6;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: -30px auto 40px;
+            padding: 0 18px;
+            position: relative;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.7fr 1fr;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 27px;
+            box-shadow: 0 8px 30px #0f172a0d;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .field {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dbe2ea;
+            border-radius: 9px;
+            background: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #e11d48;
+            box-shadow: 0 0 0 3px #e11d481a;
+        }
+
+        .hint {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 7px;
+            line-height: 1.6;
+        }
+
+        .blood-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 9px;
+        }
+
+        .blood-option {
+            position: relative;
+        }
+
+        .blood-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .blood-option label {
+            display: block;
+            padding: 13px 5px;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            text-align: center;
+            color: #475569;
+            cursor: pointer;
+            background: #fff;
+            margin: 0;
+            transition: 0.2s;
+        }
+
+        .blood-option input:checked + label {
+            background: #fff1f2;
+            border: 2px solid #e11d48;
+            color: #9f1239;
+            font-weight: bold;
+            padding: 12px 4px;
+        }
+
+        .blood-option input:focus-visible + label {
+            outline: 2px solid #9f1239;
+            outline-offset: 3px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #be123c;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .submit-btn:hover {
+            background: #9f1239;
+        }
+
+        .notice {
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #fff1f2;
+            color: #9f1239;
+            font-size: 14px;
+        }
+
+        .side-card {
+            background: #fff1f2;
+            border: 1px solid #ffe4e6;
+        }
+
+        .side-icon {
+            font-size: 32px;
+        }
+
+        .side-card h3 {
+            color: #9f1239;
+            margin-bottom: 10px;
+        }
+
+        .side-card p,
+        .side-card li {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .side-card ul {
+            padding-left: 20px;
+        }
+
+        .info-box {
+            border-top: 1px solid #fecdd3;
+            padding-top: 16px;
+            margin-top: 18px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 22px;
+            color: #9f1239;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        @media (max-width: 760px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 21px;
+            }
+
+            .navbar a {
+                margin-left: 0;
+                margin-right: 12px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .blood-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="brand">🩸 LifeLink</div>
+
+        <div>
+            <a href="{% url 'home' %}">Dashboard</a>
+            <a href="{% url 'donor_list' %}">Donors</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="icon">❤️‍🩹</div>
+        <h1>Request Blood</h1>
+        <p>Every second matters. Help connect patients with potential donors.</p>
+    </header>
+
+    <main class="container">
+        <div class="layout">
+
+            <section class="card">
+                <h2>Blood Request Details</h2>
+
+                <p class="subtitle">
+                    Enter the patient's details so LifeLink can look for
+                    matching donors in the requested state and city.
+                </p>
+
+                {% for message in messages %}
+                    <div class="notice" role="status">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="field">
+                        <label for="patient_name">Patient name *</label>
+
+                        <input
+                            class="form-control"
+                            id="patient_name"
+                            name="patient_name"
+                            maxlength="100"
+                            placeholder="Enter patient's full name"
+                            autocomplete="name"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label>Required blood group *</label>
+
+                        <div class="blood-grid">
+                            <div class="blood-option">
+                                <input type="radio" id="blood_ap"
+                                       name="blood_group" value="A+" required>
+                                <label for="blood_ap">A+</label>
+                            </div>
+
+                            <div class="blood-option">
+                                <input type="radio" id="blood_an"
+                                       name="blood_group" value="A-">
+                                <label for="blood_an">A−</label>
+                            </div>
+
+                            <div class="blood-option">
+                                <input type="radio" id="blood_bp"
+                                       name="blood_group" value="B+">
+                                <label for="blood_bp">B+</label>
+                            </div>
+
+                            <div class="blood-option">
+                                <input type="radio" id="blood_bn"
+                                       name="blood_group" value="B-">
+                                <label for="blood_bn">B−</label>
+                            </div>
+
+                            <div class="blood-option">
+                                <input type="radio" id="blood_abp"
+                                       name="blood_group" value="AB+">
+                                <label for="blood_abp">AB+</label>
+                            </div>
+
+                            <div class="blood-option">
+                                <input type="radio" id="blood_abn"
+                                       name="blood_group" value="AB-">
+                                <label for="blood_abn">AB−</label>
+                            </div>
+
+                            <div class="blood-option">
+                                <input type="radio" id="blood_op"
+                                       name="blood_group" value="O+">
+                                <label for="blood_op">O+</label>
+                            </div>
+
+                            <div class="blood-option">
+                                <input type="radio" id="blood_on"
+                                       name="blood_group" value="O-">
+                                <label for="blood_on">O−</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="state">Required state / union territory *</label>
+
+                        <select class="form-control"
+                                id="state" name="state" required>
+                            <option value="">Select state or union territory</option>
+                            <option>Andhra Pradesh</option>
+                            <option>Arunachal Pradesh</option>
+                            <option>Assam</option>
+                            <option>Bihar</option>
+                            <option>Chhattisgarh</option>
+                            <option>Goa</option>
+                            <option>Gujarat</option>
+                            <option>Haryana</option>
+                            <option>Himachal Pradesh</option>
+                            <option>Jharkhand</option>
+                            <option>Karnataka</option>
+                            <option>Kerala</option>
+                            <option>Madhya Pradesh</option>
+                            <option>Maharashtra</option>
+                            <option>Manipur</option>
+                            <option>Meghalaya</option>
+                            <option>Mizoram</option>
+                            <option>Nagaland</option>
+                            <option>Odisha</option>
+                            <option>Punjab</option>
+                            <option>Rajasthan</option>
+                            <option>Sikkim</option>
+                            <option>Tamil Nadu</option>
+                            <option>Telangana</option>
+                            <option>Tripura</option>
+                            <option>Uttar Pradesh</option>
+                            <option>Uttarakhand</option>
+                            <option>West Bengal</option>
+                            <option>Andaman and Nicobar Islands</option>
+                            <option>Chandigarh</option>
+                            <option>Dadra and Nagar Haveli and Daman and Diu</option>
+                            <option>Delhi</option>
+                            <option>Jammu and Kashmir</option>
+                            <option>Ladakh</option>
+                            <option>Lakshadweep</option>
+                            <option>Puducherry</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="city">Required city *</label>
+
+                        <select class="form-control"
+                                id="city" name="city" required disabled>
+                            <option value="">First select a state</option>
+                        </select>
+
+                        <p class="hint">
+                            Select a state to display the available cities.
+                        </p>
+                    </div>
+
+                    <div class="field">
+                        <label for="contact_email">Contact email *</label>
+
+                        <input
+                            class="form-control"
+                            id="contact_email"
+                            type="email"
+                            name="contact_email"
+                            maxlength="254"
+                            placeholder="example@email.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="units">Units required *</label>
+
+                        <select class="form-control"
+                                id="units" name="units" required>
+                            <option value="1" selected>1 unit</option>
+                            <option value="2">2 units</option>
+                            <option value="3">3 units</option>
+                            <option value="4">4 units</option>
+                            <option value="5">5 units</option>
+                            <option value="6">6 units</option>
+                            <option value="7">7 units</option>
+                            <option value="8">8 units</option>
+                            <option value="9">9 units</option>
+                            <option value="10">10 units</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="hospital">Hospital / medical centre</label>
+
+                        <input
+                            class="form-control"
+                            id="hospital"
+                            name="hospital"
+                            maxlength="150"
+                            placeholder="Enter hospital name (optional)"
+                        >
+                    </div>
+
+                    <button class="submit-btn" type="submit">
+                        Submit Blood Request →
+                    </button>
+
+                    <p class="hint">
+                        Matching available donors may receive email alerts.
+                        Submission does not guarantee blood availability.
+                        Confirm compatibility and availability with the hospital.
+                    </p>
+                </form>
+
+                <a class="back-link" href="{% url 'home' %}">
+                    ← Back to Dashboard
+                </a>
+            </section>
+
+            <aside>
+                <section class="card side-card">
+                    <div class="side-icon">🩸</div>
+                    <h3>How LifeLink Works</h3>
+
+                    <p>
+                        Your request can be matched against donor blood
+                        groups and registered locations.
+                    </p>
+
+                    <ul>
+                        <li>Choose the required blood group.</li>
+                        <li>Select the state and city where blood is needed.</li>
+                        <li>Matching available donors may receive email alerts.</li>
+                        <li>Confirm availability and compatibility with the hospital.</li>
+                    </ul>
+                </section>
+
+                <section class="card" style="margin-top: 20px;">
+                    <h3>Need blood urgently?</h3>
+
+                    <p class="subtitle" style="margin-bottom: 0;">
+                        Contact the treating hospital or local blood bank
+                        directly in an emergency. Do not wait for an online
+                        response.
+                    </p>
+                </section>
+            </aside>
+
+        </div>
+    </main>
+
+    <script>
+        const cities = {
+            "Tamil Nadu": [
+                "Chennai", "Coimbatore", "Madurai", "Tiruppur",
+                "Salem", "Tiruchirappalli", "Erode", "Vellore",
+                "Tirunelveli", "Thanjavur", "Dindigul", "Karur",
+                "Thoothukudi", "Nagercoil", "Namakkal", "Hosur",
+                "Kanchipuram", "Tiruvannamalai", "Cuddalore",
+                "Kumbakonam", "Sivakasi", "Pollachi"
+            ],
+
+            "Kerala": [
+                "Thiruvananthapuram", "Kochi", "Kozhikode",
+                "Thrissur", "Kollam", "Kannur", "Palakkad",
+                "Alappuzha", "Kottayam", "Malappuram"
+            ],
+
+            "Karnataka": [
+                "Bengaluru", "Mysuru", "Mangaluru", "Hubballi",
+                "Belagavi", "Kalaburagi", "Davanagere", "Udupi",
+                "Shivamogga", "Tumakuru"
+            ],
+
+            "Andhra Pradesh": [
+                "Visakhapatnam", "Vijayawada", "Guntur",
+                "Nellore", "Kurnool", "Tirupati", "Kakinada",
+                "Rajahmundry", "Eluru", "Kadapa"
+            ],
+
+            "Telangana": [
+                "Hyderabad", "Warangal", "Nizamabad",
+                "Karimnagar", "Khammam", "Nalgonda",
+                "Mahbubnagar", "Adilabad"
+            ],
+
+            "Maharashtra": [
+                "Mumbai", "Pune", "Nagpur", "Nashik",
+                "Thane", "Kolhapur", "Solapur", "Aurangabad",
+                "Amravati", "Navi Mumbai"
+            ],
+
+            "Gujarat": [
+                "Ahmedabad", "Surat", "Vadodara", "Rajkot",
+                "Bhavnagar", "Jamnagar", "Gandhinagar"
+            ],
+
+            "Rajasthan": [
+                "Jaipur", "Jodhpur", "Udaipur", "Kota",
+                "Ajmer", "Bikaner", "Alwar"
+            ],
+
+            "Uttar Pradesh": [
+                "Lucknow", "Kanpur", "Agra", "Varanasi",
+                "Prayagraj", "Noida", "Ghaziabad", "Meerut",
+                "Gorakhpur", "Mathura"
+            ],
+
+            "West Bengal": [
+                "Kolkata", "Howrah", "Durgapur",
+                "Siliguri", "Asansol", "Darjeeling"
+            ],
+
+            "Bihar": [
+                "Patna", "Gaya", "Muzaffarpur",
+                "Bhagalpur", "Darbhanga", "Purnia"
+            ],
+
+            "Punjab": [
+                "Amritsar", "Ludhiana", "Jalandhar",
+                "Patiala", "Bathinda", "Mohali"
+            ],
+
+            "Haryana": [
+                "Gurugram", "Faridabad", "Panipat",
+                "Ambala", "Hisar", "Karnal", "Rohtak"
+            ],
+
+            "Goa": [
+                "Panaji", "Margao", "Vasco da Gama",
+                "Mapusa", "Ponda"
+            ],
+
+            "Odisha": [
+                "Bhubaneswar", "Cuttack", "Rourkela",
+                "Puri", "Sambalpur", "Berhampur"
+            ],
+
+            "Madhya Pradesh": [
+                "Bhopal", "Indore", "Gwalior",
+                "Jabalpur", "Ujjain", "Sagar", "Rewa"
+            ],
+
+            "Chhattisgarh": [
+                "Raipur", "Bhilai", "Bilaspur",
+                "Korba", "Durg", "Jagdalpur"
+            ],
+
+            "Jharkhand": [
+                "Ranchi", "Jamshedpur", "Dhanbad",
+                "Bokaro", "Deoghar", "Hazaribagh"
+            ],
+
+            "Assam": [
+                "Guwahati", "Dibrugarh", "Silchar",
+                "Jorhat", "Tezpur", "Nagaon"
+            ],
+
+            "Uttarakhand": [
+                "Dehradun", "Haridwar", "Haldwani",
+                "Roorkee", "Rishikesh", "Nainital"
+            ],
+            "Himachal Pradesh": [
+                "Shimla", "Dharamshala", "Manali",
+                "Solan", "Mandi", "Kullu"
+            ],
+
+            "Jammu and Kashmir": [
+                "Srinagar", "Jammu", "Anantnag",
+                "Baramulla", "Udhampur"
+            ],
+
+            "Arunachal Pradesh": [
+                "Itanagar", "Naharlagun", "Pasighat", "Tawang"
+            ],
+
+            "Manipur": [
+                "Imphal", "Thoubal", "Bishnupur"
+            ],
+
+            "Meghalaya": [
+                "Shillong", "Tura", "Jowai"
+            ],
+
+            "Mizoram": [
+                "Aizawl", "Lunglei", "Champhai"
+            ],
+
+            "Nagaland": [
+                "Kohima", "Dimapur", "Mokokchung"
+            ],
+            "Sikkim": [
+                "Gangtok", "Namchi", "Gyalshing"
+            ],
+
+            "Tripura": [
+                "Agartala", "Udaipur", "Dharmanagar"
+            ],
+
+            "Andaman and Nicobar Islands": [
+                "Port Blair"
+            ],
+
+            "Chandigarh": [
+                "Chandigarh"
+            ],
+
+            "Dadra and Nagar Haveli and Daman and Diu": [
+                "Daman", "Silvassa", "Diu"
+            ],
+
+            "Delhi": [
+                "New Delhi", "Delhi"
+            ],
+
+            "Ladakh": [
+                "Leh", "Kargil"
+            ],
+
+            "Lakshadweep": [
+                "Kavaratti", "Agatti", "Minicoy"
+            ],
+
+            "Puducherry": [
+                "Puducherry", "Karaikal", "Mahe", "Yanam"
+            ]
+        };
+        const stateSelect = document.getElementById("state");
+        const citySelect = document.getElementById("city");
+
+        stateSelect.addEventListener("change", function () {
+            const selectedState = stateSelect.value;
+
+            citySelect.replaceChildren();
+
+            if (!selectedState) {
+                citySelect.add(
+                    new Option("First select a state", "")
+                );
+                citySelect.disabled = true;
+                return;
+            }
+
+            citySelect.add(new Option("Select city", ""));
+
+            const stateCities = cities[selectedState] || [];
+
+            if (stateCities.length === 0) {
+                citySelect.replaceChildren();
+                citySelect.add(
+                    new Option("No cities added for this state yet", "")
+                );
+                citySelect.disabled = true;
+                return;
+            }
+
+            stateCities.forEach(function (city) {
+                citySelect.add(new Option(city, city));
+            });
+
+            citySelect.disabled = false;
+        });
+    </script>
+
+</body>
+</html>
