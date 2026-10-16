@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = False
+SECRET_KEY = os.getenv("SECRET_KEY", "")
 
 ALLOWED_HOSTS = [
     "localhost",
