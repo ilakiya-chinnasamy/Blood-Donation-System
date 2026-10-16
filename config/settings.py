@@ -9,10 +9,17 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-change-this-key-for-local-development"
-)
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "blood-donation-system-jqme.onrender.com",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://blood-donation-system-jqme.onrender.com",
+]
 
 DEBUG = True
 
