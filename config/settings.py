@@ -1,3 +1,4 @@
+
 """
 Django settings for config project.
 """
@@ -7,9 +8,14 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(os.path.join(BASE_DIR, '.env'))
 
+# Load local .env file when available
+load_dotenv(BASE_DIR / ".env")
+
+
+# Security settings
 DEBUG = False
+
 SECRET_KEY = os.getenv("SECRET_KEY", "")
 
 ALLOWED_HOSTS = [
@@ -22,13 +28,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://blood-donation-system-jqme.onrender.com",
 ]
 
-DEBUG = True
-
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -70,7 +71,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -80,7 +80,6 @@ DATABASES = {
 
 
 # Password validation
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": (
@@ -110,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Asia/Kolkata"
@@ -121,12 +119,14 @@ USE_TZ = True
 
 
 # Static files
+STATIC_URL = "/static/"
 
-STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 
 # Email configuration (Gmail SMTP)
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
@@ -139,14 +139,11 @@ EMAIL_HOST_PASSWORD = os.getenv("Password")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
+# Authentication redirects
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+
 # Default primary key field type
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
